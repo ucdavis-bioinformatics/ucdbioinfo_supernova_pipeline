@@ -1,0 +1,10 @@
+{
+	"project": {
+		"basename": "basepath/to/output",
+		"id": "sample_id",
+		"fastqs": "path/to/fastqfiles"
+	},
+	"supernova": {
+		"read_count": "all"
+	}
+}

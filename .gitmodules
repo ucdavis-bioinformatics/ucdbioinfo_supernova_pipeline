@@ -1,0 +1,3 @@
+[submodule "proc10xG"]
+	path = proc10xG
+	url = https://github.com/ucdavis-bioinformatics/proc10xG.git
