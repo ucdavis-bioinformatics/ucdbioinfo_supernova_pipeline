@@ -11,23 +11,27 @@
 #SBATCH --mail-type=ALL # Type of email notification- BEGIN,END,FAIL,ALL
 #SBATCH --mail-user=settles@ucdavis.edu # Email to which notifications will be sent
 
-hostname
-
-echo "My SLURM_JOB_ID"
-echo $SLURM__JOB_ID
-
 start=`date +%s`
 
-THREADS=${SLURM_NTASKS}
-MEM=$(expr ${SLURM_MEM_PER_NODE} / 1000)
+echo "Hostname: $(eval hostname)"
 
+if [ -z ${SLURM_JOB_ID} ]; then echo "running locally"; else echo "My SLURM_JOB_ID: ${SLURM_JOB_ID}"; fi
+if [ -z ${SLURM_NTASKS} ]; then THREADS=1; else THREADS=${SLURM_NTASKS}; fi
+if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=12; else  MEM=$(expr ${SLURM_MEM_PER_NODE} / 1024); fi
+
+if [ -z $1 ]; then echo "json path is unset"; exit 1; else echo "json setup file: '$1'"; fi
+
+basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
+id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
+
+#input
+supernova_seqin="${basepath}/02-${id}-supernova_outs/${id}-supernova_outs-pseudohap2.1.fasta.gz"
+
+#software
 module load bwa/0.7.16a
 
-basepath="/share/biocore/projects/Rosenblum_E_UCB/aspidoscelis_assembly"
-out_dir="aspidoscelis_lizard_supernova_outs"
-in_fasta="${out_dir}/aspidoscelis_lizard_supernova.pseudohap2.1.fasta.gz"
-
-call="bwa index ${in_fasta}"
+#application call
+call="bwa index ${supernova_seqin}"
 
 echo $call
 eval $call
