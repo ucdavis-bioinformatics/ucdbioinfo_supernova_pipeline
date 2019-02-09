@@ -43,8 +43,8 @@ mkdir -p ${kat_reads_out}
 kat_reads_outprefix=${kat_reads_out}/${id}-kat_reads
 
 #software
-module load anaconda2
 module load kat
+module load anaconda2
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 proc10xPath="${DIR}/../proc10xG"
 
@@ -53,7 +53,7 @@ call="kat hist \
   -o ${kat_reads_outprefix}-k${kmers[SLURM_ARRAY_TASK_ID]} \
   -m ${kmers[SLURM_ARRAY_TASK_ID]} \
   -t $((THREADS - 1)) \
-  <( ${proc10xPath}/filter_10xReads.py -1 ${proc10xG_outprefix}_R1_001.fastq.gz -2 ${proc10xG_outprefix}_R2_001.fastq.gz )"
+  <( ${proc10xPath}/filter_10xReads.py -1 ${proc10xG_outprefix}_R1_001.fastq.gz -2 ${proc10xG_outprefix}_R2_001.fastq.gz 2> ${kat_reads_outprefix}-filter.log)"
 
 echo $call
 eval $call
