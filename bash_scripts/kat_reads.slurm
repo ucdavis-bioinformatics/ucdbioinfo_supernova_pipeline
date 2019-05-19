@@ -46,6 +46,7 @@ kat_reads_outprefix=${kat_reads_out}/${id}-kat_reads
 module load kat
 module load anaconda2
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="/share/biocore/projects/Tao_R_Kyoto_Japan/persimmon_10xGenome/ucdbioinfo_supernova_pipeline/bash_scripts"
 proc10xPath="${DIR}/../proc10xG"
 
 #application call
@@ -53,7 +54,7 @@ call="kat hist \
   -o ${kat_reads_outprefix}-k${kmers[SLURM_ARRAY_TASK_ID]} \
   -m ${kmers[SLURM_ARRAY_TASK_ID]} \
   -t $((THREADS - 1)) \
-  <( ${proc10xPath}/filter_10xReads.py -1 ${proc10xG_outprefix}_R1_001.fastq.gz -2 ${proc10xG_outprefix}_R2_001.fastq.gz 2> ${kat_reads_outprefix}-filter.log)"
+  <( ${proc10xPath}/filter_10xReads.py -1 ${proc10xG_outprefix}_R1_001.fastq.gz -2 ${proc10xG_outprefix}_R2_001.fastq.gz 2> ${kat_reads_outprefix}-filter-k${kmers[SLURM_ARRAY_TASK_ID]}.log)"
 
 echo $call
 eval $call
