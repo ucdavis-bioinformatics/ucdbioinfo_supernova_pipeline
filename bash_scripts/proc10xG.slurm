@@ -9,7 +9,7 @@
 #SBATCH --nodes=1
 #SBATCH --time=5-0
 #SBATCH --ntasks=3 # Number of cores
-#SBATCH --mem=4000 # Memory pool for all cores (see also --mem-per-cpu)
+#SBATCH --mem=2000 # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH --partition=production # Partition to submit to
 #SBATCH --output=slurm_out/proc10xG-%N-%j.out # File to which STDOUT will be written
 #SBATCH --error=slurm_out/proc10xG-%N-%j.err # File to which STDERR will be written
@@ -22,7 +22,7 @@ echo "Hostname: $(eval hostname)"
 
 if [ -z ${SLURM_JOB_ID} ]; then echo "running locally"; else echo "My SLURM_JOB_ID: ${SLURM_JOB_ID}"; fi
 if [ -z ${SLURM_NTASKS} ]; then THREADS=3; else THREADS=${SLURM_NTASKS}; fi
-if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=4; else  MEM=$(expr ${SLURM_MEM_PER_NODE} / 1024); fi
+if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=2; else  MEM=$(expr ${SLURM_MEM_PER_NODE} / 1024); fi
 
 if [ -z $1 ]; then echo "json path is unset"; exit 1; else echo "json setup file: '$1'"; fi
 
