@@ -8,9 +8,9 @@
 #SBATCH --array=0-2
 #SBATCH --job-name=kat # Job name
 #SBATCH --nodes=1
-#SBATCH --time=0-12:00:00
-#SBATCH --ntasks=48 # Number of cores
-#SBATCH --mem=164000 # Memory pool for all cores (see also --mem-per-cpu)
+#SBATCH --time=1-0
+#SBATCH --ntasks=24 # Number of cores
+#SBATCH --mem=168000 # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH --partition=production # Partition to submit to
 #SBATCH --output=slurm_out/kat-%N-%j.out # File to which STDOUT will be written
 #SBATCH --error=slurm_out/kat-%N-%j.err # File to which STDERR will be written
@@ -27,10 +27,14 @@ if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=492; else  MEM=$(expr ${SLURM_MEM_PER_
 
 if [ -z $1 ]; then echo "json path is unset"; exit 1; else echo "json setup file: '$1'"; fi
 
+pipeline=$(eval jq .pipeline.basepath $1 | sed 's/^"\(.*\)"$/\1/')
 basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
 id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
 
-kmers=(21 27 33)
+kmers=( )
+for i in $(eval jq -c .kat_reads.kmers params.json | jq -r '.[]'); do kmers+=( $i ); done
+
+#kmers=(21 27 33)
 if [ -z ${SLURM_ARRAY_TASK_ID} ]; then echo SLURM_ARRAY_TASK_ID=0; fi
 
 #input
@@ -46,9 +50,8 @@ kat_reads_outprefix=${kat_reads_out}/${id}-kat_reads
 module load anaconda2
 module load anaconda3
 module load kat
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-DIR="/share/biocore/projects/Silva_Filho_M_USP/D_saccharalis_10X/ucdbioinfo_supernova_pipeline/bash_scripts"
-proc10xPath="${DIR}/../proc10xG"
+
+proc10xPath="${pipeline}/proc10xG"
 
 #application call
 call="kat hist \
