@@ -1,8 +1,11 @@
 {
+	"pipeline":{
+		"basepath": "basepath/to/pipeline"
+	},
 	"project": {
 		"basename": "basepath/to/output",
 		"id": "sample_id",
-		"fastqs": "path/to/fastqfiles"
+		"fastqs": "fastqfiles"
 	},
 	"supernova": {
 		"read_count": "all"

@@ -24,8 +24,9 @@ if [ -z ${SLURM_JOB_ID} ]; then echo "running locally"; else echo "My SLURM_JOB_
 if [ -z ${SLURM_NTASKS} ]; then THREADS=3; else THREADS=${SLURM_NTASKS}; fi
 if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=2; else  MEM=$(expr ${SLURM_MEM_PER_NODE} / 1024); fi
 
-if [ -z $1 ]; then echo "json path is unset"; exit 1; else echo "json setup file: '$1'"; fi
+if [ -z $1 ]; then echo "json file is unset"; exit 1; else echo "json setup file: '$1'"; fi
 
+pipeline=$(eval jq .pipeline.basepath $1 | sed 's/^"\(.*\)"$/\1/')
 basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
 id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
 fastqs=$(eval jq .project.fastqs $1 | sed 's/^"\(.*\)"$/\1/')
@@ -42,8 +43,7 @@ log_out=${proc10xG_outprefix}.log
 
 #software
 module load anaconda2
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-proc10xPath="${DIR}/../proc10xG"
+proc10xPath="${pipeline}/proc10xG"
 
 #application call
 call="${proc10xPath}/process_10xReads.py \
