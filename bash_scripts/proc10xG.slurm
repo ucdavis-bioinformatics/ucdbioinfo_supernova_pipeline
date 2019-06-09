@@ -42,8 +42,10 @@ log_out=${proc10xG_outprefix}.log
 
 #software
 module load anaconda2
+scriptpath="$( cd "$(dirname "$0")" ; pwd -P )"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-proc10xPath="${DIR}/../proc10xG"
+scriptpath="/share/biocore/projects/Silva_Filho_M_USP/D_saccharalis_10X/ucdbioinfo_supernova_pipeline"
+proc10xPath="${scriptpath}/proc10xG"
 
 #application call
 call="${proc10xPath}/process_10xReads.py \

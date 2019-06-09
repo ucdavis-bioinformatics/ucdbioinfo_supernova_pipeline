@@ -8,9 +8,9 @@
 #SBATCH --array=0-2
 #SBATCH --job-name=kat # Job name
 #SBATCH --nodes=1
-#SBATCH --time=10-9
+#SBATCH --time=0-12:00:00
 #SBATCH --ntasks=48 # Number of cores
-#SBATCH --mem=500000 # Memory pool for all cores (see also --mem-per-cpu)
+#SBATCH --mem=164000 # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH --partition=production # Partition to submit to
 #SBATCH --output=slurm_out/kat-%N-%j.out # File to which STDOUT will be written
 #SBATCH --error=slurm_out/kat-%N-%j.err # File to which STDERR will be written
@@ -43,10 +43,11 @@ mkdir -p ${kat_reads_out}
 kat_reads_outprefix=${kat_reads_out}/${id}-kat_reads
 
 #software
-module load kat
 module load anaconda2
+module load anaconda3
+module load kat
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-DIR="/share/biocore/projects/Tao_R_Kyoto_Japan/persimmon_10xGenome/ucdbioinfo_supernova_pipeline/bash_scripts"
+DIR="/share/biocore/projects/Silva_Filho_M_USP/D_saccharalis_10X/ucdbioinfo_supernova_pipeline/bash_scripts"
 proc10xPath="${DIR}/../proc10xG"
 
 #application call

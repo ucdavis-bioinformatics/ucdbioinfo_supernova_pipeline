@@ -1,9 +1,15 @@
 {
+	"pipeline":{
+		"basepath": "basepath/to/pipeline"
+	},
 	"project": {
 		"basename": "basepath/to/output",
 		"id": "sample_id",
-		"fastqs": "path/to/fastqfiles"
+		"fastqs": "fastqfiles"
 	},
+        "kat_reads": {
+                "kmers": [ 21, 27, 33 ]
+        },
 	"supernova": {
 		"read_count": "all"
 	}
