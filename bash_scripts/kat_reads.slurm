@@ -32,7 +32,7 @@ basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
 id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
 
 kmers=( )
-for i in $(eval jq -c .kat_reads.kmers params.json | jq -r '.[]'); do kmers+=( $i ); done
+for i in $(eval jq -c .kat_reads.kmers $1 | jq -r '.[]'); do kmers+=( $i ); done
 
 #kmers=(21 27 33)
 if [ -z ${SLURM_ARRAY_TASK_ID} ]; then echo SLURM_ARRAY_TASK_ID=0; fi
@@ -53,6 +53,7 @@ module load kat
 
 proc10xPath="${pipeline}/proc10xG"
 
+echo "k=${kmers[SLURM_ARRAY_TASK_ID]}"
 #application call
 call="kat hist \
   -o ${kat_reads_outprefix}-k${kmers[SLURM_ARRAY_TASK_ID]} \
