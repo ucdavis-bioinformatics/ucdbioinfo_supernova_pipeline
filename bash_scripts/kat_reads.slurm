@@ -47,9 +47,9 @@ mkdir -p ${kat_reads_out}
 kat_reads_outprefix=${kat_reads_out}/${id}-kat_reads
 
 #software
-module load anaconda2
 module load anaconda3
 module load kat
+module load anaconda2
 
 proc10xPath="${pipeline}/proc10xG"
 
