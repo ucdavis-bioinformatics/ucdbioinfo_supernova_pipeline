@@ -59,7 +59,7 @@ call="kat hist \
   -o ${kat_reads_outprefix}-k${kmers[SLURM_ARRAY_TASK_ID]} \
   -m ${kmers[SLURM_ARRAY_TASK_ID]} \
   -t $((THREADS - 1)) \
-  <( ${proc10xPath}/filter_10xReads.py -1 ${proc10xG_outprefix}_R1_001.fastq.gz -2 ${proc10xG_outprefix}_R2_001.fastq.gz 2> ${kat_reads_outprefix}-filter-k${kmers[SLURM_ARRAY_TASK_ID]}.log)"
+  <( ${proc10xPath}/filter_10xReads.py -1 ${proc10xG_outprefix}_R1_001.fastq.gz -2 ${proc10xG_outprefix}_R2_001.fastq.gz)"
 
 echo $call
 eval $call
