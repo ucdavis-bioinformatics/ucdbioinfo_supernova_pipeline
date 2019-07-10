@@ -5,14 +5,14 @@
 ## https://github.com/TGAC/KAT
 ## Assumes proc10xG.slurm has completed successfully
 #
-#SBATCH --job-name=kat # Job name
+#SBATCH --job-name=kat-eval-comp2 # Job name
 #SBATCH --nodes=1
 #SBATCH --time=1-0
 #SBATCH --ntasks=32 # Number of cores
 #SBATCH --mem=200000 # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH --partition=production # Partition to submit to
-#SBATCH --output=slurm_out/kat-comp1-%N-%j.out # File to which STDOUT will be written
-#SBATCH --error=slurm_out/kat-comp1-%N-%j.err # File to which STDERR will be written
+#SBATCH --output=slurm_out/kat-eval-comp2-%N-%j.out # File to which STDOUT will be written
+#SBATCH --error=slurm_out/kat-eval-comp2-%N-%j.err # File to which STDERR will be written
 #SBATCH --mail-type=ALL # Type of email notification- BEGIN,END,FAIL,ALL
 #SBATCH --mail-user=settles@ucdavis.edu # Email to which notifications will be sent
 
@@ -26,6 +26,7 @@ if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=200; else  MEM=$(expr ${SLURM_MEM_PER_
 
 if [ -z $1 ]; then echo "json path is unset"; exit 1; else echo "json setup file: '$1'"; fi
 
+pipeline=$(eval jq .pipeline.basepath $1 | sed 's/^"\(.*\)"$/\1/')
 basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
 id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
 
@@ -34,8 +35,8 @@ proc10xG_out="${basepath}/01-${id}-proc10xG_reads"
 mkdir -p ${proc10xG_out}
 proc10xG_outprefix=${proc10xG_out}/${id}-proc10xG_reads
 
-supernova_seqin1="${basepath}/02-${id}-supernova_outs/${id}-supernova_outs-pseudohap2.1.fasta.gz"
-supernova_seqin2="${basepath}/02-${id}-supernova_outs/${id}-supernova_outs-pseudohap2.2.fasta.gz"
+supernova_seqin1="${basepath}/02-${id}-supernova_outs/${id}-supernova_mkout-pseudohap2.1.fasta.gz"
+supernova_seqin2="${basepath}/02-${id}-supernova_outs/${id}-supernova_mkout-pseudohap2.2.fasta.gz"
 
 #output
 assembly_eval_out=${basepath}/03-${id}-assembly_eval
@@ -43,10 +44,10 @@ mkdir -p ${assembly_eval_out}
 assembly_eval_outprefix=${assembly_eval_out}/${id}-kat_eval
 
 #software
-module load anaconda2
+module load anaconda3
 module load kat
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-proc10xPath="${DIR}/../proc10xG"
+module load anaconda2
+proc10xPath="${pipeline}/proc10xG"
 
 call="kat comp \
   -t${THREADS} \
@@ -54,7 +55,7 @@ call="kat comp \
   -H10000000000 \
   -o ${assembly_eval_outprefix}-all_vs_pe \
   <( ${proc10xPath}/filter_10xReads.py -1 ${proc10xG_outprefix}_R1_001.fastq.gz -2 ${proc10xG_outprefix}_R2_001.fastq.gz ) \
-  <( gzip -c ${supernova_seqin1} ${supernova_seqin2})"
+  <( gunzip -c ${supernova_seqin1} ${supernova_seqin2})"
 echo $call
 eval $call
 

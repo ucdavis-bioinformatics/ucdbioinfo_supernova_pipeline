@@ -33,17 +33,25 @@ id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
 ## output style options are raw|megabubbles|pseudohap|pseudohap2
 ## minsize default is 500bp for raw, 1000bp for all others
 ## headers default is short
-outstyle=(raw megabubbles pseudohap)
-minsize=(500 1000 1000)
-if [ -z ${SLURM_ARRAY_TASK_ID} ]; then echo SLURM_ARRAY_TASK_ID=0; fi
+outstyle=( )
+for i in $(eval jq -c .supernova.outstyle $1 | jq -r '.[]'); do outstyle+=( $i ); done
 
+minsize=( )
+for i in $(eval jq -c .supernova.minsize $1 | jq -r '.[]'); do minsize+=( $i ); done
+
+#outstyle=(raw megabubbles pseudohap)
+#minsize=(500 1000 1000)
+
+if [ -z ${SLURM_ARRAY_TASK_ID} ]; then SLURM_ARRAY_TASK_ID=2; fi
+
+echo "SLURM_ARRAY_TASK_ID: ${SLURM_ARRAY_TASK_ID}"
 #input
-amsdir="${basepath}/01-${id}-supernova_run/outs/assembly"
+amsdir="${basepath}/01-${id}-supernova_run/outs"
 
 #output
 supernova_seqout="${basepath}/02-${id}-supernova_outs"
 mkdir -p ${supernova_seqout}
-supernova_seqoutprefix="${supernova_seqout}/${id}-supernova_outs"
+out_prefix="${supernova_seqout}/${id}-supernova_mkout"
 
 #software
 module load supernova/2.1.1
@@ -52,13 +60,17 @@ module load supernova/2.1.1
 cp ${amsdir}/report.txt ${supernova_seqout}/report.txt
 cp ${amsdir}/summary.csv ${supernova_seqout}/summary.csv
 
+echo ${outstyle[2]}
+echo ${minsize[2]}
+
 call="supernova mkoutput \
---asmdir=${amsdir} \
+--asmdir=${amsdir}/assembly \
 --outprefix=${out_prefix}-${outstyle[SLURM_ARRAY_TASK_ID]} \
 --style=${outstyle[SLURM_ARRAY_TASK_ID]} \
 --minsize=${minsize[SLURM_ARRAY_TASK_ID]} \
 --headers=full"
 
+if [ "${outstyle[SLURM_ARRAY_TASK_ID]}" == "pseudohap2" ]; then call="$call --index"; fi
 echo $call
 eval $call
 
