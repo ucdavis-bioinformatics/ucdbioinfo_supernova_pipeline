@@ -7,8 +7,8 @@
 #SBATCH --job-name=run_supernova # Job name
 #SBATCH --exclusive
 #SBATCH --nodes=1
-#SBATCH --mem=0
-#SBATCH --time=30-0
+#SBATCH --mem=245G
+#SBATCH --time=5-0
 #SBATCH --partition=production # Partition to submit to
 #SBATCH --output=slurm_out/run_supernova-%N-%j.out # File to which STDOUT will be written
 #SBATCH --error=slurm_out/run_supernova-%N-%j.err # File to which STDERR will be written

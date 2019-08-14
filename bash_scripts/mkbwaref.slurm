@@ -25,7 +25,7 @@ basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
 id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
 
 #input
-supernova_seqin="${basepath}/02-${id}-supernova_outs/${id}-supernova_outs-pseudohap2.1.fasta.gz"
+supernova_seqin="${basepath}/02-${id}-supernova_outs/${id}-supernova_mkout-pseudohap2.1.fasta.gz"
 
 #software
 module load bwa/0.7.16a

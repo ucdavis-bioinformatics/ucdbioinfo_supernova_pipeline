@@ -12,5 +12,7 @@
         },
 	"supernova": {
 		"read_count": "all"
+		"outstyle": [ raw, megabubbles, pseudohap ],
+		"minsize": [ 500, 1000, 1000]
 	}
 }

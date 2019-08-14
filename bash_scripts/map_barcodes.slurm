@@ -23,15 +23,12 @@ if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=64; else  MEM=$(expr ${SLURM_MEM_PER_N
 
 if [ -z $1 ]; then echo "json path is unset"; exit 1; else echo "json setup file: '$1'"; fi
 
+pipeline=$(eval jq .pipeline.basepath $1 | sed 's/^"\(.*\)"$/\1/')
 basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
 id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
 
-# requires bwa index on fasta and samtools faidx on fasta
-basepath="/share/biocore/projects/Rosenblum_E_UCB/aspidoscelis_assembly"
-samplename=aspidoscelis_lizard
-
 #input
-mapfasta="${basepath}/02-${id}-supernova_outs/${id}-supernova_outs-pseudohap2.1.fasta.gz"
+mapfasta="${basepath}/02-${id}-supernova_outs/${id}-supernova_mkout-pseudohap2.1.fasta.gz"
 proc10xG_out="${basepath}/01-${id}-proc10xG_reads"
 proc10xG_outprefix=${proc10xG_out}/${id}-proc10xG_reads
 
@@ -40,13 +37,12 @@ assembly_eval_out=${basepath}/03-${id}-assembly_eval
 mkdir -p ${assembly_eval_out}
 assembly_eval_outprefix=${assembly_eval_out}/${id}-assembly_eval-bwa.bam
 
-output=${in_path}/${samplename}-10xMapping2self.bam
-
 #software
+module load anaconda2
 module load bwa/0.7.16a
 module load samtools/1.9
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-proc10xPath="${DIR}/../proc10xG"
+
+proc10xPath="${pipeline}/proc10xG"
 
 #application call
 call="bwa mem -t ${MAPTHREADS} -C \
@@ -57,23 +53,24 @@ call="bwa mem -t ${MAPTHREADS} -C \
  | samtools view -hb -o ${assembly_eval_outprefix} -"
 
 echo $call
-eval $call
+#eval $call
 
 call="samtools index -@ ${THREADS} ${assembly_eval_outprefix}"
 echo $call
-eval $call
-
-call="samtools idxstats ${assembly_eval_outprefix} > ${assembly_eval_outprefix}.idxstats"
-echo $call
-eval $call
+#eval $call
 
 call="samtools flagstat -@ ${THREADS} ${assembly_eval_outprefix} > ${assembly_eval_outprefix}.flagstat"
 echo $call
-eval $call
+#eval $call
+
+#Only produce idxstats for primary mapped reads with q > 30  and in proper pair
+call="samtools view -b -q 30 -f 0x2 -F 0x904 ${assembly_eval_outprefix} | samtools idxstats - > ${assembly_eval_outprefix}.idxstats"
+echo $call
+#eval $call
 
 call="samtools stats -@ ${THREADS} ${assembly_eval_outprefix} > ${assembly_eval_outprefix}.stats"
 echo $call
-eval $call
+#eval $call
 
 end=`date +%s`
 
