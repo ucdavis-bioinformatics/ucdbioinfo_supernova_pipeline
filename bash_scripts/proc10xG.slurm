@@ -26,24 +26,24 @@ if [ -z ${SLURM_MEM_PER_NODE} ]; then MEM=2; else  MEM=$(expr ${SLURM_MEM_PER_NO
 
 if [ -z $1 ]; then echo "json file is unset"; exit 1; else echo "json setup file: '$1'"; fi
 
-pipeline=$(eval jq .pipeline.basepath $1 | sed 's/^"\(.*\)"$/\1/')
-basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
-id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
-fastqs=$(eval jq .project.fastqs $1 | sed 's/^"\(.*\)"$/\1/')
+#pipeline=$(eval jq .pipeline.basepath $1 | sed 's/^"\(.*\)"$/\1/')
+#basepath=$(eval jq .project.basename $1 | sed 's/^"\(.*\)"$/\1/')
+#id=$(eval jq .project.id $1 | sed 's/^"\(.*\)"$/\1/' )
+#fastqs=$(eval jq .project.fastqs $1 | sed 's/^"\(.*\)"$/\1/')
 
 #input
-fastq1=$(eval ls -d -1 ${fastqs}/* | grep -x ".*R1_001.fastq.gz")
-fastq2=$(eval ls -d -1 ${fastqs}/* | grep -x ".*R2_001.fastq.gz")
+#fastq1=$(eval ls -d -1 ${fastqs}/* | grep -x ".*R1_001.fastq.gz")
+#fastq2=$(eval ls -d -1 ${fastqs}/* | grep -x ".*R2_001.fastq.gz")
 
 #output
-proc10xG_out="${basepath}/01-${id}-proc10xG_reads"
+#proc10xG_out="${basepath}/01-${id}-proc10xG_reads"
 mkdir -p ${proc10xG_out}
-proc10xG_outprefix=${proc10xG_out}/${id}-proc10xG_reads
-log_out=${proc10xG_outprefix}.log
+#proc10xG_outprefix=${proc10xG_out}/${id}-proc10xG_reads
+#log_out=${proc10xG_outprefix}.log
 
 #software
 module load anaconda2
-proc10xPath="${pipeline}/proc10xG"
+#proc10xPath="${pipeline}/proc10xG"
 
 #application call
 call="${proc10xPath}/process_10xReads.py \
@@ -60,4 +60,5 @@ runtime=$((end-start))
 
 echo $runtime
 
+exit
 exit
