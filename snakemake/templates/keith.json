@@ -1,0 +1,43 @@
+{
+    "__default__" :
+    {
+        "running_locally" : "True",
+    },
+    "pipeline":{
+        "basepath": "/share/biocore/keith/D_saccharalis_10X/ucdbioinfo_supernova_pipeline"
+    },
+    "project": {
+        "basename": "/share/biocore/keith/D_saccharalis_10X",
+        "id": "D_saccharalis",
+        "fastqs": "Project_MCFF_L2_DS2"
+    },
+    "kat_reads": {
+        "kmers": [ 21, 27, 33 ]
+    },
+    "supernova": {
+        "read_count": 205333333,
+         "outstyle": [ "raw", "megabubbles", "pseudohap2" ],
+         "minsize": [ 0, 500, 1000]
+    },
+    "sbatch": {
+        "job_name": "proc10xG",
+         "nodes": 1,
+         "minsize": [ 0, 500, 1000]
+    },
+    "kat_reads_sbatch": {
+        "main" :
+        {
+            "account" : "keithgmitchell",
+            "time" : "00:15:00",
+            "n" : 1,
+            "partition": "production"
+        },
+        "compute1" :
+        {
+            "time" : "00:20:00"
+        }
+    },
+
+}
+
+

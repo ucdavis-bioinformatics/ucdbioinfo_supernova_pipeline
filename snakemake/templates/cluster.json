@@ -1,0 +1,13 @@
+{
+    "__default__" :
+    {
+        "account" : "keithgmitchell",
+        "time" : "00:15:00",
+        "n" : 1,
+	    "partition": "production"
+    },
+    "compute1" :
+    {
+        "time" : "00:20:00"
+    }
+}

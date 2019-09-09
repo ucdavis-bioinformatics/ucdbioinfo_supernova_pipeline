@@ -1,0 +1,18 @@
+{
+	"pipeline":{
+		"basepath": "basepath/to/pipeline"
+	},
+	"project": {
+		"basename": "basepath/to/output",
+		"id": "sample_id",
+		"fastqs": "fastqfiles"
+	},
+        "kat_reads": {
+                "kmers": [ 21, 27, 33 ]
+        },
+	"supernova": {
+		"read_count": "all"
+		"outstyle": [ raw, megabubbles, pseudohap ],
+		"minsize": [ 500, 1000, 1000]
+	}
+}
