@@ -1,7 +1,8 @@
 # Running UCD Bioinformatics Supernova Pipeline with Snakemake
 
 
-<img src="https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/dag.pdf" alt="supernova" width="800px"/>
+![alt text](https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/dag.pdf "DAG")
+
 
 ##  HOW TO CALL THE SNAKEMAKE FILE (GENERAL):
 1.  `snakemake -s snakemake.py -j 999 --cluster-config templates/cluster.json --cluster "sbatch -p {cluster.partition} -n {cluster.n} -t {cluster.time}"`
@@ -29,7 +30,7 @@
 ***
 
 
-<img src="https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/dag_circled.pdf" alt="supernova_circled" width="800px"/>
+![alt text](https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/da_circled.pdf "DAG Circle")
 
 
 ## RUNNING LOCALLY
