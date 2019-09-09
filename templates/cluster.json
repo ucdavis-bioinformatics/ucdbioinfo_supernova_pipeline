@@ -4,7 +4,7 @@
         "account" : "keithgmitchell",
         "time" : "00:15:00",
         "n" : 1,
-	"partition": "production"
+	    "partition": "production"
     },
     "compute1" :
     {

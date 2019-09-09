@@ -1,4 +1,8 @@
 {
+    "__default__" :
+    {
+        "running_locally" : "True",
+    },
     "pipeline":{
         "basepath": "/share/biocore/keith/D_saccharalis_10X/ucdbioinfo_supernova_pipeline"
     },
@@ -33,6 +37,7 @@
             "time" : "00:20:00"
         }
     },
+
 }
 
 
