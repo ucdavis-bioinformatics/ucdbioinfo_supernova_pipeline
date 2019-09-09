@@ -1,7 +1,7 @@
 # Running UCD Bioinformatics Supernova Pipeline with Snakemake
 
 
-![alt text](https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/dag.pdf "DAG")
+![alt text](https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/dag-1.png "DAG")
 
 
 ##  HOW TO CALL THE SNAKEMAKE FILE (GENERAL):
@@ -30,7 +30,7 @@
 ***
 
 
-![alt text](https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/da_circled.pdf "DAG Circle")
+![alt text](https://github.com/ucdavis-bioinformatics/ucdbioinfo_supernova_pipeline/blob/master/snakemake/dag_circled-1.png "DAG Circle")
 
 
 ## RUNNING LOCALLY
