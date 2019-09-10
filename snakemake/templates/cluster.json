@@ -6,8 +6,32 @@
         "n" : 1,
 	    "partition": "production"
     },
+    "ls" :
+    {
+        "job-name": "run_supernova",
+        "n" : 1,
+        "partition": "production",
+        "time" : "5-0",
+        "mem": "245GB",
+        "output": "slurm_out/run_supernova.out",
+        "error": "slurm_out/run_supernova.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    },
+    "rs": {
+        "job-name": "proc10xG",
+        "n" : 1,
+        "partition": "production",
+        "time" : "5-0",
+        "ntasks": 2,
+        "mem": "2000",
+        "output": "slurm_out/proc10xG.out",
+        "error": "slurm_out/proc10xG.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    },
     "compute1" :
     {
         "time" : "00:20:00"
     }
-}
+ -}

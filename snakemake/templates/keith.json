@@ -1,7 +1,7 @@
 {
     "__default__" :
     {
-        "running_locally" : "True",
+        "running_locally" : "True"
     },
     "pipeline":{
         "basepath": "/share/biocore/keith/D_saccharalis_10X/ucdbioinfo_supernova_pipeline"
@@ -19,24 +19,91 @@
          "outstyle": [ "raw", "megabubbles", "pseudohap2" ],
          "minsize": [ 0, 500, 1000]
     },
-    "sbatch": {
-        "job_name": "proc10xG",
-         "nodes": 1,
-         "minsize": [ 0, 500, 1000]
-    },
     "kat_reads_sbatch": {
-        "main" :
-        {
-            "account" : "keithgmitchell",
-            "time" : "00:15:00",
-            "n" : 1,
-            "partition": "production"
-        },
-        "compute1" :
-        {
-            "time" : "00:20:00"
-        }
+        "job-name": "kat_reads",
+        "n" : 1,
+        "partition": "production",
+        "time" : "5-0",
+        "ntasks": 24,
+        "mem": "32GB",
+        "output": "slurm_out/kat_reads_.out",
+        "error": "slurm_out/kat_reads_.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
     },
+    "mkoutput_supernova_sbatch": {
+        "job-name": "mkoutput_supernova",
+        "n" : 1,
+        "partition": "production",
+        "time" : "1-0",
+        "ntasks": 8,
+        "mem": "120000",
+        "output": "slurm_out/mkoutput_supernova_.out",
+        "error": "slurm_out/mkoutput_supernova_.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    },
+    "mkbwaref_sbatch": {
+        "job-name": "mkbwaref",
+        "n" : 1,
+        "partition": "production",
+        "time" : "1-0",
+        "ntasks": 1,
+        "mem": "12000",
+        "output": "slurm_out/mkbwaref.out",
+        "error": "slurm_out/mkbwaref.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    },
+    "kat_comp1_sbatch": {
+        "job-name": "kat_eval_comp1",
+        "n" : 1,
+        "partition": "production",
+        "time" : "1-0",
+        "ntasks": 32,
+        "mem": "200000",
+        "output": "slurm_out/kat_eval_comp1.out",
+        "error": "slurm_out/kat_eval_comp1.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    },
+    "kat_comp2_sbatch": {
+        "job-name": "kat_eval_comp2",
+        "n" : 1,
+        "partition": "production",
+        "time" : "1-0",
+        "ntasks": 32,
+        "mem": "200000",
+        "output": "slurm_out/kat_eval_comp2.out",
+        "error": "slurm_out/kat_eval_comp2.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    },
+    "kat_sect_sbatch": {
+        "job-name": "kat_eval_sect",
+        "n" : 1,
+        "partition": "production",
+        "time" : "1-0",
+        "ntasks": 32,
+        "mem": "200000",
+        "output": "slurm_out/kat_eval_sect.out",
+        "error": "slurm_out/kat_eval_sect.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    },
+    "map_barcodes_sbatch": {
+        "job-name": "map_barcodes",
+        "n" : 1,
+        "partition": "production",
+        "time" : "3-00",
+        "ntasks": 20,
+        "mem": "64000",
+        "output": "slurm_out/map_barcodes.out",
+        "error": "slurm_out/map_barcodes.err",
+        "mail-type": "ALL",
+        "mail-user": "kgmitchell@ucdavis.edu"
+    }
+
 
 }
 
